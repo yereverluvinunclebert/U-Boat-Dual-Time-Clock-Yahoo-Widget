@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget minimumVersion="4.5">
+	<!--
+	Created by Dean Beedell
+
+	Original clock concept by Weissboard
+	Visuals adapted from KJC66&apos;s XWidget
+	Re-coded by Dean Beedell
+	Visuals added to and enhanced by Dean Beedell
+	Sorted utterly by Harry Whitfield
+	http://lightquick.co.uk
+	-->
+
+	<settings>
+		<setting name="allowCustomObjectAttributes" value="true"/>
+		<setting name="debug" value="off"/>
+	</settings>
+
+	<about-box>
+		<image>Resources/images/about.png</image>
+		<about-version font="arial" color="#000000" vOffset="262" hOffset="330" size="12">
+			<shadow color="#ffffff" vOffset="1" hOffset="0"/>
+		</about-version>
+		<about-text font="arial" color="#000000" vOffset="262" hOffset="360" url="http://www.lightquick.co.uk" data="http://www.lightquick.co.uk" size="12">
+			<shadow color="#ffffff" vOffset="1" hOffset="0"/>
+		</about-text>
+	</about-box>
+
+	<window visible="false" name="mainWindow" alignment="left" width="745" title="U Boat Clock Widget"
+		onFirstDisplay="mainWindow.hOffset = 10 + screen.availLeft; mainWindow.vOffset = 10 + screen.availTop; "
+		height="1024" shadow="0">
+		<image visible="true" vOffset="0" name="background" src="Resources/images/Background_noStrap.png" hOffset="0"/>
+		<image visible="true" opacity="1" vOffset="0" name="background2" src="Resources/images/Background_mk1.png" hOffset="0"/>
+		<image visible="true" vOffset="0" name="surround" src="Resources/images/surround.png" hOffset="0"/>
+
+		<image name="startButton" src="Resources/images/startButton.png"/>
+		<image name="stopButton" src="Resources/images/stopButton.png"/>
+		<image name="switchFaces" src="Resources/images/null.png"/>
+
+		<text font="Arial" color="#ECDAB4" name="dateText" alignment="left" style="font-weight:bold" data="31" size="20"/>
+		<text font="Arial" color="#ECDAB4" name="secondText" alignment="left" style="font-weight:bold" data="31" size="20"/>
+
+		<image visible="false" name="swSecondHand" src="Resources/images/Small1B.png"/>
+		<image visible="false" name="swMinuteHand" src="Resources/images/Small1B.png"/>
+		<image visible="false" name="swHourHand" src="Resources/images/smallhour.png"/>
+
+		<image visible="true" name="smallHourHand" src="Resources/images/smallhour.png"/>
+		<image visible="true" name="smallMinuteHand" src="Resources/images/Small1B.png"/>
+
+		<image name="hourShadow" src="Resources/images/HourShadow.png"/>
+		<image name="minuteShadow" src="Resources/images/MinuteShadow.png"/>
+		<image name="hourHand" src="Resources/images/Hour.png"/>
+		<image name="minuteHand" src="Resources/images/Minute.png"/>
+		<image name="secondShadow" src="Resources/images/SecondShadow.png"/>
+		<image name="secondHand" src="Resources/images/Second.png"/>
+
+		<image name="bigReflection" src="Resources/images/bigReflection.png"/>
+		<image name="windowReflection" src="Resources/images/windowReflection.png" opacity="224"/>
+		<image src = "Resources/images/pin.png" name = "pin" opacity = "1" />
+		<image src = "Resources/images/prefs01.png" name = "prefs" opacity = "255" />
+		<image src = "Resources/images/uboat-help-750.png" name = "uboatHelp" visible = "false" />
+		<image src = "Resources/images/helpButton.png" name = "helpButton" opacity = "1" />
+		<image src = "Resources/images/pin.png" name = "tickSwitch" opacity = "255" />
+	</window>
+	
+	   <window visible="false" name="helpWindow" alignment="left" width="760" title="UBoat Widget HELP" height="630" >
+            <image src = "Resources/images/uboat-help-750.png" name = "tankHelp" visible = "true" />
+    </window>
+    
+  <prefGroup name="development" order="8" icon="Resources/images/development-icon.png" title="Development"/>
+  <preference hidden="false" description="Turning on the debugging will provide extra information in the debug window. To obtain the debug window press SHIFT+CTRL simultaneously whilst right clicking on the Yahoo widget systray icon, then select debug from the drop down menu. You will need to restart the widget properly rather than doing a simple restart for debugging information to appear." name="debugflgPref" group="development" title="Debug:" defaultValue="1" type="popup">
+       <option>Debug OFF</option>
+       <optionValue>0</optionValue>
+       <option>Debug ON</option>
+       <optionValue>1</optionValue>
+   </preference>   
+  <preference hidden="false" description="Default command to run when the gauge receives a double-click. %SystemRoot%/system32/perfmon.exe" name="imageCmdPref" group="development" title="Double-Click command" defaultValue="%SystemRoot%/system32/perfmon.exe" type="text"/>
+  <preference hidden="false" description="Development ONLY: Enter your editor path here along with any command line switches required to open this widget in the editor. This function only operates if the widget has been unpacked and DEBUG is ON. " name="imageEditPref" group="development" title="Default Editor:" defaultValue="" type="text"/>
+    
+
+	<timer onTimerFired="updateTime();" name="timeTicker" ticking="true" interval="0.1"/>
+
+	<action trigger="onWakeFromSleep">
+		updateTime();
+	</action>
+
+	<action trigger="onPreferencesChanged">
+		sizeClock();
+		mainScreen();
+		updateDLS();
+		updateTime();
+		showFace();
+		setmenu();
+		settooltip();
+		checkLockWidget();
+	</action>
+
+
+        <action trigger="onKeyDown">
+              <![CDATA[
+                if (system.event.keyCode==116) {
+                    print("pressing "+system.event.keyCode);
+                    reloadWidget();
+                }
+               ]]>
+        </action>
+
+	<prefGroup name="general" order="1" icon="Resources/images/general-icon.png" title="General"/>
+	<prefGroup name="commands" order="2" icon="Resources/images/commands-icon.png" title="Commands"/>
+	<prefGroup name="configuration" order="3" icon="Resources/images/config-icon.png" title="Configuration"/>
+	<prefGroup name="timepieceposition" order="4" icon="Resources/images/earth.png" title="Position"/>
+
+	<preference	 group="configuration" ticks="41" minLength="20" description="Adjust to a percentage of the original size. You can also use Ctrl+Mousewheel."
+		name="clockSize" maxLength="220" title="Clock Size:" defaultValue="100" type="slider">
+		<tickLabel>020</tickLabel>
+		<tickLabel>060</tickLabel>
+		<tickLabel>100</tickLabel>
+		<tickLabel>140</tickLabel>
+		<tickLabel>180</tickLabel>
+		<tickLabel>220</tickLabel>
+	</preference>
+
+	<preference hidden="false" group="general" description="Choose the default clock face to show when the widgets starts." name="clockFaceSwitchPref" title="Clock face to show:" defaultValue="standard" type="popup">
+		<option>standard</option>
+		<option>stopwatch</option>
+	</preference>
+
+	<preference hidden="false" group="general" description="Choose the timezone for the main clock. Defaults to the system time." name="optionListPref1" title="Main Gauge Time Zone:" defaultValue="System Time" type="popup">
+		<option>System Time</option>
+	</preference>
+
+	<preference hidden="false" group="general" description="If Daylight Saving is used in your region, choose the appropriate region from the popup list." name="mainDLSPref" title="Daylight Saving:" type="popup" defaultValue="NONE Daylight Saving not used">
+		<option>NONE   Daylight Saving not used</option>
+	</preference>
+
+	<preference hidden="false" group="general" description="Choose the timezone for the secondary clock. Defaults to the GMT." name="optionListPref2" title="Secondary Gauge Time Zone:" defaultValue="GMT - 00:00 Greenwich Mean Time: London" type="popup">
+		<option>GMT - 00:00 Greenwich Mean Time: London</option>
+	</preference>
+	<preference hidden="false" group="general" description="If Daylight Saving is used in your region, choose the appropriate region from the popup list." name="secyDLSPref" title="Daylight Saving:" type="popup" defaultValue="NONE Daylight Saving not used">
+		<option>NONE   Daylight Saving not used</option>
+	</preference>
+
+	<preference hidden="true" group="configuration" description="Check this box if you don't want to see the Licence Conditions again." name="licenceHide" title="Don't Show Licence Again" defaultValue="0" type="checkbox"/>
+
+	<preference hidden="false" group="configuration" description="The scroll-wheel resizing direction can be determined here." name="MouseWheelPref" title="Mouse Scroll Wheel" defaultValue="up" type="popup">
+		<option>up</option>
+		<option>down</option>
+	</preference>
+
+	<preference hidden="false" group="configuration" description="This widget makes sounds by default - you can enable or disable the sounds as you require." name="soundPref" title="Sound Control" defaultValue="enabled" type="popup">
+		<option>enabled</option>
+		<option>disabled</option>
+	</preference>
+
+	<preference name="widgetHideModePref">
+		<title>Aspect Ratio Hidden Mode</title>
+		<type>popup</type>
+		<option>landscape</option>
+		<option>portrait</option>
+		<option>none</option>
+		<defaultValue>none</defaultValue>
+		<hidden>false</hidden>
+		<group>timepieceposition</group>
+		<description>Tablets only. Don't fiddle with this unless you know what you are doing. Here you can choose whether the widget is hidden by default in either landscape or portrait mode or not at all. This allows you to have certain widgets that do not obscure the screen in one mode or another. If you accidentally set it so you can't find it on screen - then simply choose 'show widget' on the widget dock and then change the setting here to none.</description>
+	</preference>
+
+	<preference hidden="false" group="timepieceposition" name="widgetLockPercentagePref"  description="Tablets only. The widget can be positioned proportionally when switching between portrait/landscape. If you want to enable this, disable the options below." title="Widget Position by Percentage:" defaultValue="disabled" type="popup">
+		<option>enabled</option><optionValue>enabled</optionValue>
+		<option>disabled</option><optionValue>disabled</optionValue>
+	</preference>
+
+	<preference name="hLocationPercPref">
+		<title>Widget horizontal location</title>
+		<type>text</type>
+		<hidden>true</hidden>
+		<description>The widget's horizontal location stored in %.</description>
+	</preference>
+
+	<preference name="vLocationPercPref">
+		<title>Widget vertical location</title>
+		<type>text</type>
+		<hidden>true</hidden>
+		<description>The widget's vertical location stored in %.</description>
+	</preference>
+
+	<preference hidden="false" group="timepieceposition" name="widgetLockLandscapeModePref" title="Widget Locked in Landscape:" defaultValue="disabled" type="popup">
+		<option>enabled</option><optionValue>enabled</optionValue>
+		<option>disabled</option><optionValue>disabled</optionValue>
+	</preference>
+
+	<preference hidden="false" group="timepieceposition" name="widgetLockPortraitModePref"	description="The widget can be locked into a certain position when in landscape/portrait mode, it ensures that the widget always appears where you want it to. Using the fields below, you can assign a default x/y position for both Landscape or Portrait mode. When the widget is locked in place using the locking pin, this value is set automatically." title="Widget Locked in Portrait:" defaultValue="disabled" type="popup">
+		<option>enabled</option><optionValue>enabled</optionValue>
+		<option>disabled</option><optionValue>disabled</optionValue>
+	</preference>
+
+	<preference hidden="false" group="timepieceposition"  name="landscapeHoffsetPref" title="Landscape Hoffset/Left X pos" type="text"/>
+
+	<preference hidden="false" group="timepieceposition"  name="landscapeVoffsetPref" title="Landscape Yoffset/top Y pos" type="text"/>
+
+	<preference hidden="false" group="timepieceposition"  name="portraitHoffsetPref" title="Portrait Hoffset/Left X pos" type="text"/>
+
+	<preference hidden="false" group="timepieceposition" description="" name="portraitVoffsetPref" title="Portrait Yoffset/top Y pos" type="text"/>
+
+	<preference name="hLocationPref">
+		<title>Widget horizontal location</title>
+		<type>text</type>
+		<hidden>true</hidden>
+		<description>The widget's horizontal location stored in pixels.</description>
+	</preference>
+
+	<preference name="vLocationPref">
+		<title>Widget vertical location</title>
+		<type>text</type>
+		<hidden>true</hidden>
+		<description>The widget's vertical location stored in pixels.</description>
+	</preference>
+
+        <preference hidden="false" group="configuration" description="The scroll-wheel resizing direction can be determined here." name="tickSwitchPref" title="Mouse Scroll Wheel" defaultValue="up" type="popup">
+		<option>up</option>
+		<option>down</option>
+	</preference>
+
+	<script src="script.js"/>
+</widget>

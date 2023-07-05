@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<name>U Boat Clock Widget</name>
+	<version>1.5</version>
+	<author name="Dean Beedell" />
+	<image usage="security" src="Resources/images/security.png"/>
+	<image usage="dock" src="Resources/images/dock.png"/>
+	<platform minVersion="4.5" />
+    <copyright>(c) 2011-2016 Dean Beedell</copyright>
+    <description>The Konfabulator U Boat Clock widget based upon a watch face and body design from Italo Fortana. It was created from an original Xwidget by Canuckken/kjc66. Adapted to have more detail.</description>
+	<security>
+          <filesystem>full</filesystem>
+          <http>all</http>
+          <applescript>true</applescript>
+          <command>true</command>
+          <hotkey>false</hotkey>
+	</security>
+</metadata>
