@@ -4,11 +4,14 @@ U-Boat Dual Time Gauge Yahoo Widget, written in Javascript and XML for the Yahoo
 Widget (Konfabulator) Engine. Created for XP, Vista, Win7, 8, 10+ as well as the 
 Apple Mac.
 
+![uboatStopwatch850](https://github.com/yereverluvinunclebert/U-Boat-Dual-Time-Clock-Yahoo-Widget/assets/2788342/c2adeb27-ec29-4b68-9b73-9b98bf64b1c1)
 
 This U-Boat widget is an attractive dieselpunk Yahoo widget for your desktop. 
 It is a simple multi-timezone stopwatch and clock. Functional and gorgeous at 
 the same time. This Widget is a moveable widget that you can move anywhere 
 around the desktop as you require.
+
+![uboat-prpomo_670](https://github.com/yereverluvinunclebert/U-Boat-Dual-Time-Clock-Yahoo-Widget/assets/2788342/a027f06f-a9a9-4e01-a8c8-1289942940c7)
 
 The widget can be resized - Hover the cursor over the widget. Press the CTRL key 
 and use your mousewheel up or down. The widget will resize dynamically.
@@ -18,6 +21,8 @@ the Yahoo Widget Konfabulator engine. The engine interprets the javascript and
 creates the widget according to the XML description and using the images you 
 provide. Designed and built by me with much more than a little help from Harry 
 Whitfield.
+
+![uboat-help-800_670](https://github.com/yereverluvinunclebert/U-Boat-Dual-Time-Clock-Yahoo-Widget/assets/2788342/d7da5be4-0578-4809-83a2-310b0b92b310)
 
 Built using: 
 
@@ -83,6 +88,7 @@ Wit these instructions you should be able to start Yahoo! Widgets and the
 menubar item should appear. Widgets can then be started from the menubar or by 
 double-clicking on the KON file in the usual way.
 
+![U-Boat-help-Xwidget-MkI](https://github.com/yereverluvinunclebert/U-Boat-Dual-Time-Clock-Yahoo-Widget/assets/2788342/61bf1ed9-e662-4d01-b3c7-b3e0c8a1921a)
 
 LICENCE AGREEMENTS:
 
